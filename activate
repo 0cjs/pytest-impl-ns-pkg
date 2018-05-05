@@ -14,4 +14,4 @@ __activate_quiet=
     }
 ) \
 && . "$(dirname "$BASH_SOURCE")"/.build/virtualenv/*/activate \
-&& export PYTHONPATH="$(dirname "$BASH_SOURCE")/lib"
+&& true
