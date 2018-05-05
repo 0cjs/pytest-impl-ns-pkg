@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -e -o pipefail
+
+basedir=$(cd -P "$(dirname "$0")" && pwd -P)
+
+[[ $1 == -C ]] && { shift; git -C "$basedir" clean -fdX; }
+
+. "$basedir"/activate -q --python=python3
+export PYTHONPATH="$basedir"
+
+#   We do not use `python -m pytest` to avoid adding
+#   the current working directory to `sys.path`.
+exec pytest \
+    --rootdir="$basedir" \
+    -o cache_dir="$basedir/.build/pytest/cache" \
+    --import-mode=append \
+    -o norecursedirs='.* __pycache__' \
+    "$@"
